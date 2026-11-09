@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>武敬恒 · AI 产品经理作品集</title>
+<meta name="description" content="AI 产品经理实习作品集。主案例：合同风险审查 Agent，含用户与痛点、PRD、竞品分析、指标体系、高保真原型、评测结论和用户试用方案；第二案例：DataPilot 中文问数；第三案例：跨境电商经营分析看板。">
+<meta property="og:title" content="武敬恒 · AI 产品经理作品集">
+<meta property="og:description" content="合同风险审查 Agent：帮没有专职法务的业务人员，签合同前把对我方不利的条款找出来。">
+<meta property="og:image" content="assets/img/web/03-逐条意见.jpg">
+<link rel="stylesheet" href="assets/vendor/phosphor/phosphor.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <span class="me">武敬恒<span>AI 产品经理作品集</span></span>
+    <nav aria-label="页内导航">
+      <a href="#problem">用户与痛点</a>
+      <a href="#prototype">原型</a>
+      <a href="#prd">PRD</a>
+      <a href="#competition">竞品</a>
+      <a href="#metrics">指标</a>
+      <a href="#evaluation">评测</a>
+      <a href="#trial">试用方案</a>
+      <a href="#datapilot">DataPilot</a>
+      <a href="#dashboard">经营看板</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <p class="kicker">主案例 · 合同风险审查 Agent</p>
+        <h1>签合同之前，帮没有法务的业务人员把坑找出来</h1>
+        <p class="sub">逐条指出对我方不利的条款，说清依据和改法；拿不准的交给法务。</p>
+        <div class="cta">
+          <a class="btn primary" href="prototype/"><i class="ph ph-cursor-click" aria-hidden="true"></i>看可点击原型</a>
+          <a class="btn" href="https://github.com/kennywu411-dev/contract-review-agent"><i class="ph ph-github-logo" aria-hidden="true"></i>项目代码</a>
+        </div>
+      </div>
+      <a class="shot" href="prototype/?s=3" aria-label="打开原型第 3 屏：逐条意见">
+        <img src="assets/img/web/03-逐条意见.jpg" width="2000" height="1250" alt="合同风险审查原型：左侧合同按风险等级高亮，右侧逐条列出风险类型、等级、理由、依据编号和修改建议">
+      </a>
+    </section>
+
+    <div class="facts reveal">
+      <div><b>100%</b><span>难评测集风险检出（75/75，跑两次）</span></div>
+      <div><b>0.8%</b><span>理由无依据又没标转人工的意见</span></div>
+      <div><b>100% / 0%</b><span>当事人空白时反问 / 多余反问</span></div>
+      <div><b>约 1 美分</b><span>单份合同模型花费</span></div>
+    </div>
+    <p class="footnote">以上全部是离线评测数字，评测合同、公司和台账均为构造数据；没有真实用户和上线数据。真实用户试用的方案见下文，结果出来后更新。</p>
+  </div>
+
+  <section class="block" id="problem">
+    <div class="wrap">
+      <h2>用户与痛点</h2>
+      <p class="lead">很多中小企业没有专职法务，采购、行政和业务负责人看合同主要靠经验和对方给的模板 <span class="tag assume">假设</span>。坑往往是固定的几类，单看都不起眼，签了出问题才发现。</p>
+      <div class="split">
+        <div class="panel reveal">
+          <h3>为谁做</h3>
+          <div class="user">
+            <span class="ic"><i class="ph ph-buildings" aria-hidden="true"></i></span>
+            <div><b>主要：中小企业的采购、行政、业务负责人</b><p>签合同前自己先过一遍，决定要不要找对方改、要不要报给领导或律师。最在意：快、看得懂、改法能直接用。</p></div>
+          </div>
+          <div class="user second">
+            <span class="ic"><i class="ph ph-gavel" aria-hidden="true"></i></span>
+            <div><b>次要：企业法务</b><p>合同量大时先让系统初筛，自己只看高风险和系统拿不准的部分。最在意：不漏报、依据可查、能对照公司规范。</p></div>
+          </div>
+          <div class="traps">
+            <p>常见的坑</p>
+            <div class="chips"><span class="chip">违约金只约束一方</span><span class="chip">检验期过短、逾期视为合格</span><span class="chip">背靠背付款</span><span class="chip">对方可随时解除</span><span class="chip">管辖地在对方所在地</span><span class="chip">定金超过 20%</span></div>
+          </div>
+        </div>
+        <div class="panel reveal">
+          <h3>现有做法为什么不够</h3>
+          <ul class="pains">
+            <li><i class="ph ph-currency-cny" aria-hidden="true"></i><span><b>请外部律师逐份审：</b>贵、慢，几万元以下的小合同不值得 <span class="tag assume">假设</span></span></li>
+            <li><i class="ph ph-chat-circle-text" aria-hidden="true"></i><span><b>贴进通用聊天机器人：</b>会给意见，但不站在我方立场，引用的法条可能是编的，也不知道公司自己的审批规定。</span></li>
+            <li><i class="ph ph-folder-simple" aria-hidden="true"></i><span><b>公司内部审查规范：</b>多数写成文件放着，业务人员签合同时不会逐条去对 <span class="tag assume">假设</span></span></li>
+          </ul>
+          <div class="traps">
+            <p>所以产品要做到的三件事</p>
+            <ul class="pains">
+              <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>站在我方立场</b>，看不出立场先问，不猜。</span></li>
+              <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>每条意见都能点开原文核实</b>，法条和本公司规范都算。</span></li>
+              <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>拿不准的不删</b>，标“转法务复核”交给人。</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="prototype">
+    <div class="wrap">
+      <h2>高保真原型：5 个关键页面</h2>
+      <p class="lead">流程按 PRD 第 4 节：提交合同、判断立场、逐条意见、看依据原文、追问。画面里的合同、意见和依据都来自项目的真实运行记录，不是编的示例。</p>
+      <div class="gallery">
+        <div class="list" role="tablist" aria-label="原型页面">
+          <button role="tab" aria-selected="true" data-i="0"><b>1</b><span><strong>提交合同</strong><small>选我方公司，粘贴合同；提交前写清覆盖范围</small></span></button>
+          <button role="tab" aria-selected="false" data-i="1"><b>2</b><span><strong>立场反问</strong><small>当事人空白时先问“我方是甲方还是乙方”</small></span></button>
+          <button role="tab" aria-selected="false" data-i="2"><b>3</b><span><strong>逐条意见</strong><small>等级、理由、可替换的改法、依据编号、打标</small></span></button>
+          <button role="tab" aria-selected="false" data-i="3"><b>4</b><span><strong>依据原文</strong><small>点编号，右栏打开法条原文并高亮</small></span></button>
+          <button role="tab" aria-selected="false" data-i="4"><b>5</b><span><strong>追问与转人工</strong><small>“第 2 条怎么改”；拿不准的标转法务复核</small></span></button>
+        </div>
+        <div class="view">
+          <div class="viewbar">
+            <span id="cap">提交合同</span>
+            <div class="seg" role="group" aria-label="显示方式">
+              <button aria-pressed="true" data-mode="plain">界面</button>
+              <button aria-pressed="false" data-mode="notes">带设计说明</button>
+            </div>
+          </div>
+          <a class="shot" id="shot-link" href="prototype/?s=1"><img id="shot" src="assets/img/web/01-提交合同.jpg" width="2000" height="1250" alt="原型第 1 屏：提交合同" loading="lazy"></a>
+          <div class="assets">
+            <a href="prototype/"><i class="ph ph-cursor-click" aria-hidden="true"></i>打开可点击原型</a>
+            <a href="https://github.com/kennywu411-dev/pm-portfolio/tree/main/assets/img/screens"><i class="ph ph-image" aria-hidden="true"></i>每屏 PNG（2x）</a>
+            <a href="https://github.com/kennywu411-dev/pm-portfolio/tree/main/figma"><i class="ph ph-figma-logo" aria-hidden="true"></i>可导入 Figma 的 SVG</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="prd">
+    <div class="wrap">
+      <h2>PRD 摘要</h2>
+      <p class="lead">一句话：签合同之前，帮没有专职法务的业务人员把对我方不利的条款找出来，说清楚为什么不利、依据是哪条法律或公司规定、应该怎么改；拿不准的交给法务。</p>
+      <div class="prd">
+        <div class="panel scope-list reveal">
+          <div class="do">
+            <h4><i class="ph ph-check-circle" aria-hidden="true"></i>做</h4>
+            <ul>
+              <li>7 类常见商业合同：工业品买卖、农产品买卖、加工承揽、仓储委托、数据委托处理、数据产品开发、数据供应</li>
+              <li>11 类风险，从违约金不对等到单价高于台账均价</li>
+              <li>依据：《民法典》、合同编通则解释、《民事诉讼法》、官方示范文本、公司审查规范</li>
+            </ul>
+          </div>
+          <div class="dont">
+            <h4><i class="ph ph-minus-circle" aria-hidden="true"></i>不做</h4>
+            <ul>
+              <li>不出具法律意见，不替代律师和法务</li>
+              <li>不做起草、电子签、合同台账和履约提醒</li>
+              <li>不审诉讼仲裁文书和建设工程等专业合同</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel reveal">
+          <h3>关键取舍</h3>
+          <div class="table-scroll">
+          <table class="trade">
+            <thead><tr><th>问题</th><th>选择</th><th>依据</th></tr></thead>
+            <tbody>
+              <tr><td>漏报和误报哪个更重要</td><td><b>优先不漏报</b></td><td>漏掉一个高风险条款的代价远大于多看一条误报。改进后检出 100%，代价是误报回升、成本约 1.75 倍，接受</td></tr>
+              <tr><td>依据核实不了怎么办</td><td><b>不删除，标转法务复核</b></td><td>删掉会造成漏报。无依据又没标转人工的意见从 6.6% 降到 0.8%</td></tr>
+              <tr><td>看不出我方立场</td><td><b>先反问</b></td><td>立场判断错了，整份意见都会反过来</td></tr>
+              <tr><td>公司规范怎么用</td><td><b>每家公司只能查到自己的</b></td><td>不同公司红线不同；修复过一次跨租户读数据的漏洞</td></tr>
+              <tr><td>单 Agent 还是多 Agent</td><td><b>首轮审查多 Agent，追问单 Agent</b></td><td>干净合同上的误报意见从 13 到 14 条降到 4 到 6 条，检出持平</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <a class="more" href="https://github.com/kennywu411-dev/contract-review-agent/blob/main/docs/PRD.md">完整 PRD（含风险、商业模式假设、待验证假设）<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="competition">
+    <div class="wrap">
+      <h2>竞品分析：11 个产品，5 条观察</h2>
+      <p class="lead">信息来自官网、官方文档和公开报道，没有实际试用；“未查到”只代表公开资料里没找到。</p>
+      <div class="compete">
+        <div class="obs reveal"><span class="num">观察 1</span><h3>小团队缺少低门槛入口</h3><p>海外产品都要报价；国内只查到 iTerms 公开价格，最低 6980 元/年。按份付费的只有通义法睿，但它是给开发者的 API。</p></div>
+        <div class="obs reveal"><span class="num">观察 2</span><h3>依据可追溯还不是普遍卖点</h3><p>公开资料里几乎都没写明会展示法条原文，通义法睿的 API 输出也没有法条字段。</p></div>
+        <div class="obs reveal"><span class="num">观察 3</span><h3>按公司标准审合同门槛高</h3><p>自定义审查规则多在高档套餐或私有版里。</p></div>
+        <div class="obs wide reveal"><span class="num">观察 4</span><h3>国内多是电子签或合同管理平台的附带功能</h3><p>要先用它的签约平台；独立、即开即用的审查工具较少。</p></div>
+        <div class="obs wide reveal"><span class="num">观察 5</span><h3>明确能选立场的很少</h3><p>公开资料里写明能选立场的只有 iTerms 和通义法睿。</p></div>
+        <div class="position reveal">
+          <div class="row head"><span>维度</span><span>本项目怎么做</span><span>对应观察与现状</span></div>
+          <div class="row"><b>依据原文</b><span>每条意见都能点开法条或公司规范原文，核实不了的标转法务复核</span><span>观察 2；无依据又没标转人工 0.8%</span></div>
+          <div class="row"><b>公司规范和内部数据</b><span>导入公司审查规范后按红线判断；单价和供应商台账比较</span><span>观察 3；不同公司的规范和数据互相隔离</span></div>
+          <div class="row"><b>立场</b><span>自动判断，看不出来先反问</span><span>观察 5</span></div>
+          <div class="row"><b>成本</b><span>单份模型花费约 1 美分，按份收费在成本上可行</span><span>观察 1；是否有人愿意付费待验证</span></div>
+        </div>
+      </div>
+      <p class="products">对比对象：法大大 iTerms、e签宝合同 Agent、契约锁、幂律 MeCheck、通义法睿、iCourt AlphaGPT、Harvey、Spellbook、LegalOn、Ironclad、Luminance。差距也写在报告里：没有真实用户、没有 Word 插件和合同管理流程、覆盖范围小于商业产品。</p>
+      <a class="more" href="https://github.com/kennywu411-dev/contract-review-agent/blob/main/docs/竞品分析.md">完整竞品分析（含对比表和来源链接）<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </section>
+
+  <section class="block" id="metrics">
+    <div class="wrap">
+      <h2>指标体系</h2>
+      <p class="lead">北极星看用户真的用上了多少意见；离线指标管质量，在线指标等试用，护栏指标守住不能出的错。当前值都来自构造数据。</p>
+      <div class="metrics">
+        <div class="ns reveal">
+          <span class="lab">北极星指标</span>
+          <h3>每份合同被采纳的高/中风险意见数</h3>
+          <p>用户标“有用”或照着修改建议改了的意见数。当前没有值，需要试用后定基线。</p>
+          <p class="why">为什么不用“检出率”：检出再多，用户看不懂、不敢用，等于没审。采纳数同时反映准确、可读和改法可用。</p>
+        </div>
+        <div class="tiers">
+          <div class="tier reveal">
+            <h4><i class="ph ph-flask" aria-hidden="true"></i>离线（评测集）</h4>
+            <div class="kv">
+              <span class="h">指标</span><span class="h">当前</span><span class="h">目标</span>
+              <span class="m">风险检出率</span><span>v1 100%；v2 100%（两次）</span><span>不低于 95%</span>
+              <span class="m">意见精确率（高/中）</span><span>v1 82.3%；v2 62.6% 到 65.7%</span><span>v2 提到 75%</span>
+              <span class="m">依据引用准确率</span><span>v1 100%</span><span>不低于 95%</span>
+            </div>
+          </div>
+          <div class="tier reveal">
+            <h4><i class="ph ph-users-three" aria-hidden="true"></i>在线（试用）</h4>
+            <div class="kv">
+              <span class="h">指标</span><span class="h">当前</span><span class="h">目标</span>
+              <span class="m">意见采纳率</span><span>无</span><span>试用后定基线</span>
+              <span class="m">误报反馈率</span><span>无</span><span>试用后定基线</span>
+              <span class="m">审完一份合同的时间</span><span>系统耗时 P50 约 28 秒</span><span>比自己看短一半 <span class="tag assume">假设</span></span>
+            </div>
+          </div>
+          <div class="tier guard reveal">
+            <h4><i class="ph ph-shield-warning" aria-hidden="true"></i>护栏</h4>
+            <div class="kv">
+              <span class="h">指标</span><span class="h">当前</span><span class="h">目标</span>
+              <span class="m">漏报（法务抽检发现的高风险）</span><span>v2 构造数据为 0</span><span>每一例都复盘</span>
+              <span class="m">无依据又未转人工的意见</span><span>0.8%</span><span>不高于 1%</span>
+              <span class="m">单份成本</span><span>P50 $0.0038 到 $0.0118</span><span>不高于 $0.02</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="evaluation">
+    <div class="wrap">
+      <h2>评测结论</h2>
+      <p class="lead">两套构造评测集：v1 是 48 份合同、73 处植入风险；v1 检出触顶后又做了 v2，60 份长合同、75 处风险，专门把风险藏在不相关条款里、换说法、拆成两条合起来看、数值刚越过红线。</p>
+      <div class="evals">
+        <div class="ev reveal"><span class="big">88% <small>到</small> 100%</span><h3>v2 难评测集检出率</h3><p>原版多 Agent 按标题分工，漏掉定义条款和跨组组合；改成定义条款发给各组、关键词兜底、逐项对照红线后，两次都是 75/75。</p></div>
+        <div class="ev reveal"><span class="big">6.6% <small>到</small> 0.8%</span><h3>无依据又没标转人工的意见</h3><p>依据校验：先查点名的条文有没有真被检索到，再逐条核对；依据不足的转人工，不删除。误拦 2.0%。</p></div>
+        <div class="ev reveal"><span class="big">13-14 <small>到</small> 4-6 条</span><h3>干净合同上的误报意见</h3><p>首轮改用多 Agent（主审分派，三个专职审查员并行），检出不变。</p></div>
+        <div class="ev reveal"><span class="big">8/8</span><h3>追问回指“第 k 条意见怎么改”</h3><p>不带上一轮历史时 0/8；“换成乙方视角再看一遍”6/6 正确切换。</p></div>
+        <div class="ev span2 reveal"><span class="big">Haiku <small>而不是</small> DeepSeek</span><h3>模型选型</h3><p>DeepSeek 检出、类型、依据与 Haiku 持平，但精确率低约 6 个点、单份花费约 2.4 倍；默认 Haiku，DeepSeek 留作私有化部署的备选。</p></div>
+      </div>
+      <div class="honest reveal">
+        <h3><i class="ph ph-warning" aria-hidden="true"></i>这些数字的边界</h3>
+        <ul>
+          <li>评测集是自己构造的，有“自己出题自己考”的风险；缓解办法是每类风险多种写法、Agent 看不到植入规则、另报未参与调试的留出集。</li>
+          <li>v2 改进后误报回升：干净合同误报 76.7% 和 83.3%，精确率 62.6% 到 65.7%，还没到 75% 的目标，是下一步要解决的问题。</li>
+          <li>干净合同只有 12 份（v1），同一份代码跑两次误报是 66.7% 和 83.3%，波动大。</li>
+          <li>真风险里约一半被模型自己标了转人工，判断偏保守；合同场景的检索 Recall@5 只有 63.2%。</li>
+        </ul>
+      </div>
+      <a class="more" href="https://github.com/kennywu411-dev/contract-review-agent/blob/main/docs/numbers.md">全部数字、运行 ID 和测量条件<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </section>
+
+  <section class="block" id="trial">
+    <div class="wrap">
+      <h2>用户试用方案</h2>
+      <p class="lead">离线数字来自构造数据，真实合同的写法更多样，线上效果可能明显更低。试用要回答 PRD 里 5 条待验证的假设，并拿到第一批在线指标。</p>
+      <span class="status"><i class="ph ph-hourglass-medium" aria-hidden="true"></i>试用结果还没出来，这里只写方案，不写结果</span>
+      <div class="trial">
+        <div class="panel reveal">
+          <h3>招募 5 到 10 人，一周</h3>
+          <div class="recruit">
+            <div class="r"><b>3-5</b><div><strong>主要用户</strong><span>中小企业采购、行政、业务负责人，公司没有专职法务。看会不会用、看不看得懂、改法能不能直接用。</span></div></div>
+            <div class="r"><b>1-2</b><div><strong>专业对照</strong><span>企业法务或律师，对同一批合同独立审一遍，作为漏报和误报的参照。</span></div></div>
+            <div class="r"><b>1-3</b><div><strong>补充场景</strong><span>手里有租房、劳动、外包合同的同学或朋友，只看边界表现。</span></div></div>
+          </div>
+          <ol class="hyp">
+            <li>用户会在签合同前主动用工具过一遍</li>
+            <li>看得懂风险理由，愿意直接用修改建议去谈</li>
+            <li>真实合同上的误报率用户能接受</li>
+            <li>“依据原文可点开”和“接入公司规范”是在意的差异点</li>
+            <li>审完一份合同的总时间明显比自己看短</li>
+          </ol>
+        </div>
+        <div class="panel reveal">
+          <h3>流程与指标</h3>
+          <ol class="timeline">
+            <li><b>开始前</b><span>10 分钟远程演示，说明能做什么、不能做什么；说明合同会发给模型服务商、建议先打码，同意的人才参加</span></li>
+            <li><b>一周内</b><span>每人审 2 到 3 份合同，每条意见打标：有用 / 没用 / 不是风险 / 看不懂；每份填一次单份反馈</span></li>
+            <li><b>结束后</b><span>总体问卷，挑 3 到 4 人做 20 分钟访谈</span></li>
+            <li><b>之后</b><span>每条误报和漏报回到原文归类，挑一两类改；真实写法打码后补进评测集，改前改后各跑一次</span></li>
+          </ol>
+          <div class="kv" style="margin-top:14px">
+            <span class="h">指标</span><span class="h">算法</span><span class="h"></span>
+            <span class="m">意见采纳率</span><span style="grid-column: span 2">标“有用” ÷ 全部高/中意见</span>
+            <span class="m">误报反馈率</span><span style="grid-column: span 2">标“不是风险” ÷ 全部高/中意见</span>
+            <span class="m">漏报</span><span style="grid-column: span 2">用户或法务指出、系统没报的条款，每例复盘</span>
+            <span class="m">省时</span><span style="grid-column: span 2">自己看的时间 ÷ 用工具的时间，取中位数</span>
+          </div>
+        </div>
+      </div>
+      <a class="more" href="https://github.com/kennywu411-dev/contract-review-agent/blob/main/docs/用户试用方案.md">完整试用方案（含招募话术、问卷、访谈提纲、预算）<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </section>
+
+  <section class="block" id="datapilot">
+    <div class="wrap">
+      <h2>第二个案例：DataPilot 中文问数</h2>
+      <p class="lead">业务人员用中文提问，系统写 SQL、在只读库上执行、返回答案和图表。重点不是功能多，而是每个选型都在同一批题上做了对照。</p>
+      <div class="case2 reveal">
+        <div>
+          <h3>选型靠实验，收益算清楚</h3>
+          <p class="d">评测用 BIRD 500 题和模拟电商库；数字和运行 ID 都登记在仓库里。</p>
+          <div class="findings">
+            <div class="fnd"><i class="ph ph-flow-arrow" aria-hidden="true"></i><span><b>固定流程，不上 Agent：</b>准确率一样（72.0% 对 72.0%），Agent 成本高 56%、延迟高 55%。</span></div>
+            <div class="fnd"><i class="ph ph-book-open-text" aria-hidden="true"></i><span><b>企业问数难在口径：</b>去掉口径说明后各模型从 93-98% 掉到 55-66%；加指标语义层后 Haiku 从 65.8% 到 92.5%。</span></div>
+            <div class="fnd"><i class="ph ph-arrows-split" aria-hidden="true"></i><span><b>路由省钱：</b>Haiku 先答、触发纠错再升级 Sonnet，准确率 69.6%，成本是全用 Sonnet 的 14%。</span></div>
+            <div class="fnd"><i class="ph ph-calculator" aria-hidden="true"></i><span><b>ROI 结论：</b>API 成本可以忽略，决定收益的是人审核要多久和系统多准；手写一条 SQL 不到约 5 分钟的场景，用系统反而更慢。</span></div>
+            <div class="fnd"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><span><b>Bad case 复盘：</b>50 道失败题人工判定，56% 是标准答案本身有问题，所以同时报严格准确率和人工判定后的估计值。</span></div>
+          </div>
+          <div class="cta" style="margin-top:20px">
+            <a class="btn" href="https://github.com/kennywu411-dev/datapilot"><i class="ph ph-github-logo" aria-hidden="true"></i>DataPilot 仓库</a>
+            <a class="btn" href="https://github.com/kennywu411-dev/datapilot/blob/main/docs/roi.md">ROI 测算</a>
+            <a class="btn" href="https://github.com/kennywu411-dev/datapilot/blob/main/docs/badcases.md">Bad case</a>
+          </div>
+        </div>
+        <div class="shot"><img src="assets/img/web/datapilot-chat.jpg" width="2000" height="1250" alt="DataPilot 问数界面：中文提问后返回答案、图表、表格和 SQL，支持追问" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="dashboard">
+    <div class="wrap">
+      <h2>第三个案例：跨境电商经营分析看板</h2>
+      <p class="lead">接着 DataPilot 的结论往下做：既然问数难在口径，就从产品和数据的角度把"口径怎么定"完整走一遍。用 UCI 公开的英国跨境礼品电商两年数据（约 107 万行、40 多个国家），先写指标定义，再从经营问题推出 5 页看板。</p>
+      <div class="case2 reveal">
+        <div>
+          <h3>先定口径，再出图</h3>
+          <p class="d">数字由脚本从同一份数据计算，看板和文档读的是同一个结果文件；时间窗口为近 12 个月（2010-12 至 2011-11）。</p>
+          <div class="findings">
+            <div class="fnd"><i class="ph ph-ruler" aria-hidden="true"></i><span><b>口径差多少：</b>同一个"销售额"，从原始加总到去重、去邮费、扣退货，最宽和最窄口径相差 10.7%。</span></div>
+            <div class="fnd"><i class="ph ph-arrow-u-up-left" aria-hidden="true"></i><span><b>退货率被大单左右：</b>前 10 张退货单占退货额 44.6%，剔除后退货率从 3.13% 降到 1.74%，建议拆成常规退货和大额异常两条线监控。</span></div>
+            <div class="fnd"><i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i><span><b>增长来自海外：</b>英国 GMV 同比 +0.9%，海外 +12.1%；但荷兰只有 9 个客户，却占海外 GMV 的 18.4%。</span></div>
+            <div class="fnd"><i class="ph ph-users-three" aria-hidden="true"></i><span><b>收入靠老客：</b>复购客户贡献 92.2% 的 GMV，新客首单后 90 天内再下单的比例为 40.7%。</span></div>
+            <div class="fnd"><i class="ph ph-database" aria-hidden="true"></i><span><b>数据质量护栏：</b>14.6% 的 GMV 来自无客户编号的订单，作为护栏指标放进总览，防止复购等数字悄悄失真。</span></div>
+          </div>
+          <div class="cta" style="margin-top:20px">
+            <a class="btn primary" href="https://kennywu411-dev.github.io/ecommerce-dashboard/"><i class="ph ph-browser" aria-hidden="true"></i>打开在线看板</a>
+            <a class="btn" href="https://github.com/kennywu411-dev/ecommerce-dashboard"><i class="ph ph-github-logo" aria-hidden="true"></i>看板仓库</a>
+            <a class="btn" href="https://github.com/kennywu411-dev/ecommerce-dashboard/blob/main/docs/指标定义.md">指标定义</a>
+          </div>
+        </div>
+        <a class="shot" href="https://kennywu411-dev.github.io/ecommerce-dashboard/" aria-label="打开在线看板"><img src="assets/img/web/dashboard-overview.jpg" width="2000" height="1250" alt="跨境电商经营看板总览页：GMV 主卡带月度走势，净销售额、订单数、客单价、退货率、复购率、无编号 GMV 占比六张指标卡，下方为月度 GMV 同比和市场贡献" loading="lazy"></a>
+      </div>
+      <p class="footnote" style="margin-top:14px">数据为公开数据集（Chen, D., 2019, UCI Online Retail II, CC BY 4.0），只有一家公司两年的数据，没有成本数据，结论用于展示分析方法。</p>
+    </div>
+  </section>
+
+  <section class="block" id="role">
+    <div class="wrap">
+      <h2>我在这几个项目里做了什么</h2>
+      <p class="lead">都是个人项目，从找问题到做出能跑的产品、再到用评测说话，由我一个人完成。</p>
+      <div class="role">
+        <div class="reveal"><b><i class="ph ph-magnifying-glass" aria-hidden="true"></i>调研</b>场景调研、11 个竞品的公开资料整理，写清楚查到了什么、没查到什么。</div>
+        <div class="reveal"><b><i class="ph ph-file-text" aria-hidden="true"></i>定义</b>PRD、范围取舍、指标体系；没验证的判断标【假设】。</div>
+        <div class="reveal"><b><i class="ph ph-chart-line-up" aria-hidden="true"></i>评测</b>设计评测集和打分口径，每个改动跑对照，数字和运行记录对得上。</div>
+        <div class="reveal"><b><i class="ph ph-code" aria-hidden="true"></i>实现</b>Agent、检索、依据校验和前端都自己写，能在本机完整演示。</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>武敬恒 · AI 产品经理实习作品集</span>
+    <div class="links">
+      <a href="https://github.com/kennywu411-dev/contract-review-agent">合同风险审查 Agent</a>
+      <a href="https://github.com/kennywu411-dev/datapilot">DataPilot</a>
+      <a href="https://kennywu411-dev.github.io/ecommerce-dashboard/">经营看板</a>
+      <a href="https://github.com/kennywu411-dev">GitHub</a>
+      <a href="https://github.com/kennywu411-dev/pm-portfolio">本页源码</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const names = ["01-提交合同", "02-立场反问", "03-逐条意见", "04-依据原文", "05-追问与转人工"];
+  const caps = ["提交合同", "立场反问", "逐条意见", "依据原文", "追问与转人工"];
+  const tabs = [...document.querySelectorAll(".gallery .list button")];
+  const modes = [...document.querySelectorAll(".seg button")];
+  const img = document.getElementById("shot"), link = document.getElementById("shot-link"), cap = document.getElementById("cap");
+  let i = 0, notes = false;
+  const show = () => {
+    img.src = `assets/img/web/${names[i]}${notes ? "-设计说明" : ""}.jpg`;
+    img.alt = `原型第 ${i + 1} 屏：${caps[i]}${notes ? "（带设计说明）" : ""}`;
+    img.classList.toggle("wide", notes);
+    link.href = `prototype/?s=${i + 1}`;
+    cap.textContent = `${i + 1} / 5　${caps[i]}`;
+    tabs.forEach((t, k) => t.setAttribute("aria-selected", String(k === i)));
+    modes.forEach((m) => m.setAttribute("aria-pressed", String((m.dataset.mode === "notes") === notes)));
+  };
+  tabs.forEach((t) => t.addEventListener("click", () => { i = +t.dataset.i; show(); }));
+  modes.forEach((m) => m.addEventListener("click", () => { notes = m.dataset.mode === "notes"; show(); }));
+  // 预取其余截图，切换时不闪
+  names.forEach((n) => { new Image().src = `assets/img/web/${n}.jpg`; });
+  show();
+
+  const els = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return; }
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+  els.forEach((e) => io.observe(e));
+})();
+</script>
+</body>
+</html>

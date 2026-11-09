@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>合同风险审查 Agent · 高保真原型</title>
+<meta name="description" content="合同风险审查 Agent 的 5 屏可点击原型：提交合同、立场反问、逐条风险意见、依据原文高亮、追问与转法务复核。内容来自项目真实运行记录，演示数据均为构造。">
+<link rel="stylesheet" href="../assets/vendor/phosphor/phosphor.css">
+<link rel="stylesheet" href="proto.css">
+</head>
+<body>
+<header class="vbar">
+  <div class="vt">合同风险审查 Agent<small>高保真原型 · 5 屏 · 可点击</small></div>
+  <nav class="steps" id="steps" aria-label="原型页面"></nav>
+  <div class="vtools">
+    <button class="toggle" id="notes-toggle" aria-pressed="false"><span class="sw" aria-hidden="true"></span>设计说明</button>
+    <a class="vlink" href="../"><i class="ph ph-arrow-left" aria-hidden="true"></i>作品集</a>
+  </div>
+</header>
+<main class="stage">
+  <div class="board" id="board">
+    <div class="frame" id="frame" aria-live="polite"></div>
+    <aside class="notes" id="notes" aria-label="设计说明"></aside>
+  </div>
+</main>
+<script src="proto.js"></script>
+</body>
+</html>
