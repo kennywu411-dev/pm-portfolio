@@ -20,9 +20,9 @@
 
 ![原型第 3 屏：逐条风险意见](assets/img/web/03-逐条意见.jpg)
 
-## 第二案例：DataPilot 中文问数
+## 第二案例：MetricLens 中文问数
 
-[kennywu411-dev/datapilot](https://github.com/kennywu411-dev/datapilot)：每个选型都做了对照实验，另有 [ROI 测算](https://github.com/kennywu411-dev/datapilot/blob/main/docs/roi.md) 和 [Bad case 复盘](https://github.com/kennywu411-dev/datapilot/blob/main/docs/badcases.md)。
+[kennywu411-dev/metriclens](https://github.com/kennywu411-dev/metriclens)：每个选型都做了对照实验，另有 [ROI 测算](https://github.com/kennywu411-dev/metriclens/blob/main/docs/roi.md) 和 [Bad case 复盘](https://github.com/kennywu411-dev/metriclens/blob/main/docs/badcases.md)。
 
 ## 第三案例：跨境电商经营分析看板
 

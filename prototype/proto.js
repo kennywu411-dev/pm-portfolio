@@ -281,7 +281,7 @@
   function sourceHTML(id) {
     const c = CITES[id];
     const head = (title, path, extra = "") => `<div class="src-head">
-      <div class="id"><b>${id}</b>${c.kind === "table" ? "查表结果 · DataPilot MCP，只读" : "依据原文"}</div>
+      <div class="id"><b>${id}</b>${c.kind === "table" ? "查表结果 · MetricLens MCP，只读" : "依据原文"}</div>
       <h3>${esc(title)}</h3><div class="path">${esc(path)}${extra}</div>
       <button class="x" data-close aria-label="关闭原文">${icon("x")}</button></div>`;
     if (c.kind === "table") {
