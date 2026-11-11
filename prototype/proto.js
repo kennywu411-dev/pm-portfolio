@@ -1,9 +1,12 @@
 /*
- * 合同风险审查 Agent：可点击高保真原型。
+ * 采购合同审查 Agent：可点击高保真原型。
  * 内容全部来自项目真实运行记录（contract-review-agent 仓库）：
  *   - 合同 AGRI-R4 / GOODS-R3：构造评测集 evals/contracts.jsonl（正文为项目自写，非示范文本原文）
  *   - 审查意见：run trace 5d24afa31217（审查 + 依据校验后的版本）
  *   - 追问回答：run trace ae26d8340a78
+ *   - 金额与谈判优先级（第 6 屏）：合同 V3-GOODS-12（构造评测集 evals/contracts_v3.jsonl），
+ *     run trace 1b8ba398165b，与公开回放页 site/data.json 的第一条回放逐项相同。
+ *     AGRI-R4 的运行记录早于金额测算（ADR 014），所以第 3 到 5 屏没有金额，没有补写。
  *   - 依据原文：只展示《民法典》条文和构造的公司规范；示范文本原文受版权限制，不展示
  */
 (() => {
@@ -74,7 +77,91 @@
 第八条 违约责任
 任何一方违约的，应当赔偿因此给对方造成的直接损失。逾期付款或者逾期履行的，每逾期一日，按逾期部分金额的万分之五支付违约金，违约金总额不超过合同总额的百分之十。`;
 
+  const GOODS12 = `工业品买卖合同
+合同编号：V3-GOODS-12
+甲方（买受人）：华信制造有限公司
+住所：江苏省苏州市
+乙方（出卖人）：南通海拓润滑油有限公司
+住所：江苏省南通市
+签订地点：苏州
+根据《中华人民共和国民法典》等有关法律法规，甲乙双方在平等、自愿、公平和诚信的基础上，经协商一致，订立本合同。
+第一条 标的、数量和价款
+本合同标的明细如下：
+（一）品名：液压油；规格：L-HM46 200L；计量单位：桶；数量：200；单价：人民币2284元/桶（含税）；
+（二）品名：不锈钢无缝管；规格：304 Φ25×2；计量单位：米；数量：50000；单价：人民币40.8元/米（含税）；
+（三）品名：冷轧钢板；规格：SPCC 1.0mm；计量单位：吨；数量：50；单价：人民币4747元/吨（含税）；
+（四）品名：三相异步电动机；规格：YE3-7.5kW；计量单位：台；数量：200；单价：人民币2743元/台（含税）；
+以上各项合计，合同总额：人民币3282750元。
+第二条 质量标准
+乙方提供的货物应当符合国家标准、行业标准；双方另有技术要求的，以双方签字确认的书面技术文件为准。
+第三条 交付
+乙方应当在合同签订后三十日内向甲方交付货物，交付地点为甲方指定地点，运输费用由乙方承担。
+第四条 检验与验收
+甲方应当在收到货物之日起三十日内进行检验；发现数量或者质量不符合约定的，应当在该期限内书面通知乙方，乙方应当在收到通知后十日内更换、补足或者修复。甲方在该期限内未书面提出异议的，视为货物的数量和质量符合约定。
+第五条 价款支付
+合同签订后五日内，甲方向乙方支付合同总额的百分之三十作为预付款；余款在验收合格并收到乙方开具的合规发票后九十日内付清。
+第六条 定金
+甲方应当在合同签订后五日内向乙方支付合同总额百分之二十五的定金，定金在最后一期付款时抵作价款。一方违约时，对方可以选择适用定金条款或者违约金条款，但不得同时适用。
+第七条 质量保证金
+甲方有权从合同价款中预留合同总额的百分之十作为质量保证金，质保期为验收合格之日起二十四个月；质保期满且无质量问题的，甲方在十日内无息支付。
+第八条 保密
+双方对在履行本合同过程中知悉的对方商业秘密、技术资料和数据负有保密义务，未经对方书面同意不得向第三方披露；保密义务在本合同终止后五年内持续有效。
+第九条 违约责任
+甲方逾期付款的，每逾期一日，应当按合同总额的千分之一向乙方支付违约金，违约金总额不超过合同总额的百分之五十。乙方逾期交付的，每逾期一日，应当按合同总额的万分之三向甲方支付违约金，违约金总额不超过合同总额的百分之五。
+第十条 责任限制
+除因故意或者重大过失造成的损失，以及因侵犯知识产权、违反保密义务造成的损失外，任何一方在本合同项下的赔偿责任总额不超过合同总额，且不包括间接损失和可得利益损失。`;
+
+  // 第 6 屏：V3-GOODS-12 的金额测算结果（run trace 1b8ba398165b）。金额、算式、原文摘录和假设均为运行输出原文。
+  const MONEY = {
+    worst: "384,706.94", sure: "151,631.69", exposure: "233,075.25",
+    findings: [
+      { clause: "第一条", type: "unit_price", level: "高" },
+      { clause: "第四条", type: "inspection", level: "中" },
+      { clause: "第六条", type: "deposit", level: "高" },
+      { clause: "第九条", type: "penalty", level: "高" },
+    ],
+    items: [
+      {
+        clause: "第六条", title: "定金超过法定上限 20% 的部分", nature: "exposure", amount: "164,137.50",
+        formula: "合同总额 3,282,750 ×（定金 25% − 上限 20%）= 164,137.50 元",
+        inputs: [
+          ["合同总额（元）= 3,282,750", "第一条", "以上各项合计，合同总额：人民币3282750元。"],
+          ["定金比例 = 25%", "第六条", "甲方应当在合同签订后五日内向乙方支付合同总额百分之二十五的定金"],
+        ],
+        assumptions: ["定金上限 20%（《民法典》第五百八十六条、华信规范第十条）；超过的部分不产生定金效力，但钱已经付给对方"],
+      },
+      {
+        clause: "第一条", title: "单价高于台账历史均价：本单多付", nature: "sure", amount: "124,920.00",
+        formula: "液压油：（合同单价 2,284 − 台账均价 1,659.4）× 数量 200 = 124,920.00 元（单价高出 37.6%）",
+        inputs: [["液压油的单价和数量 = 2,284 × 200", "第一条", "（一）品名：液压油；规格：L-HM46 200L；计量单位：桶；数量：200；单价：人民币2284元/桶（含税）；"]],
+        assumptions: ["台账均价：供应商台账里同一品目历史成交单价的简单平均（液压油 10 笔）", "公司标准：单价高于台账均价 10% 以上才算超标（华信规范第四条）；没有超标的行不计入"],
+      },
+      {
+        clause: "第九条", title: "违约金不对等：同样逾期，我方比对方多付", nature: "exposure", amount: "68,937.75",
+        formula: "我方：合同总额 3,282,750 ×（日费率 0.1% × 30 天 = 3%）= 98,482.50；对方：合同总额 3,282,750 ×（日费率 0.03% × 30 天 = 0.9%）= 29,544.75；差额 68,937.75 元",
+        inputs: [
+          ["甲方逾期违约金日费率 = 0.1%", "第九条", "甲方逾期付款的，每逾期一日，应当按合同总额的千分之一向乙方支付违约金，违约金总额不超过合同总额的百分之五十。"],
+          ["乙方逾期违约金日费率 = 0.03%", "第九条", "乙方逾期交付的，每逾期一日，应当按合同总额的万分之三向甲方支付违约金，违约金总额不超过合同总额的百分之五。"],
+        ],
+        more: "其余 3 个数字略",
+        assumptions: ["情景：双方各逾期 30 天、逾期金额按合同总额计（假设，可配置）"],
+      },
+      {
+        clause: "第五条", title: "付款条件的资金占用成本", nature: "sure", amount: "26,711.69", unlisted: true,
+        formula: "合同总额 3,282,750 × 提前支付 55% ×（交付期 30 + 标准账期 60）÷ 365 × 6% = 26,711.69 元",
+        inputs: [
+          ["预付款比例 = 30%", "第五条", "甲方向乙方支付合同总额的百分之三十作为预付款"],
+          ["定金比例 = 25%", "第六条", "甲方应当在合同签订后五日内向乙方支付合同总额百分之二十五的定金"],
+        ],
+        more: "其余 3 个数字略",
+        assumptions: ["年化资金成本率 6%（假设）", "公司标准付款条件：不预付，验收合格后 60 日内付款（华信规范第七条）", "验收按交付当日完成计；定金按抵作价款计入提前支付的部分"],
+      },
+    ],
+    unq: { clause: "第四条", label: "检验期过短或视为合格", reason: "检验期过短的后果是丧失质量异议权，损失取决于货物是否有质量问题" },
+  };
+
   const RISK = {
+    penalty: "违约金过高或只约束一方",
     inspection: "检验期过短或视为合格",
     deposit: "定金超过 20%",
     confidentiality: "保密缺失或不对等",
@@ -190,7 +277,7 @@
 
   function side(tenant, short) {
     return `<aside class="side" aria-label="侧栏">
-      <div class="brand"><span class="mark">${icon("scales")}</span>合同风险审查</div>
+      <div class="brand"><span class="mark">${icon("scales")}</span>采购合同审查</div>
       <div class="ws"><span class="av">${short}</span><span class="t"><small>当前公司</small><b>${tenant}</b></span>${icon("caret-up-down")}</div>
       <nav class="snav" aria-label="主导航">
         <span class="h">工作台</span>
@@ -208,7 +295,7 @@
     return `<header class="head"><div><div class="crumb">${crumb}</div><h1>${title}${code ? `<span class="code">${code}</span>` : ""}</h1></div><div class="acts">${acts}</div></header>`;
   }
 
-  function paperHTML(text, { findings = [], active = null, blanks = false, hint = "" } = {}) {
+  function paperHTML(text, { findings = [], active = null, blanks = false, hint = "", money = {} } = {}) {
     const lines = text.split("\n");
     const byClause = {};
     findings.forEach((f) => (byClause[f.clause] = [...(byClause[f.clause] || []), f]));
@@ -219,9 +306,11 @@
       if (!cur) return;
       const fs = byClause[cur.no];
       const top = fs && fs.slice().sort((a, b) => "高中低".indexOf(a.level) - "高中低".indexOf(b.level))[0];
-      const cls = ["clause", top ? `risk r-${levelCls(top.level)}` : "", cur.no === active ? "active" : ""].join(" ");
+      const m = money[cur.no];
+      const cls = ["clause", top ? `risk r-${levelCls(top.level)}` : m ? "risk r-money" : "", cur.no === active ? "active" : ""].join(" ");
+      const tags = [...(fs || []).map((f) => `<span>${RISK[f.type]} · ${f.level}风险</span>`), ...(m ? [`<span class="yuan">${m}</span>`] : [])];
       html += `<div class="${cls}" data-clause="${cur.no}"><p class="h">${esc(cur.head)}</p>${cur.body.map((b) => `<p>${esc(b)}</p>`).join("")}${
-        fs ? `<p class="tags">${fs.map((f) => `<span>${RISK[f.type]} · ${f.level}风险</span>`).join("")}</p>` : ""
+        tags.length ? `<p class="tags">${tags.join("")}</p>` : ""
       }</div>`;
       cur = null;
     };
@@ -311,6 +400,33 @@ WHERE tenant='ruifeng' AND item LIKE '%粳米%'</div>
     return `${head(c.title, c.path, `<br>${esc(c.arts)}`)}<div class="scroll"><div class="src-body">${body}</div></div>`;
   }
 
+  const NATURE = { sure: "不改就确定多花", exposure: "最坏情景下的敞口" };
+  function moneyHTML(open = -1) {
+    return `<section class="card money" aria-label="金额汇总">
+        <div class="top"><b>按现在的条款签，最坏情况多花</b><span>金额由规则代码计算 · 抄出的数字逐个核对原文</span></div>
+        <div class="total">¥${MONEY.worst}</div>
+        <div class="msplit">
+          <div class="ms sure"><span>${NATURE.sure}</span><b>¥${MONEY.sure}</b><small>比价多付、资金占用，照此履行就发生</small></div>
+          <div class="ms expo"><span>${NATURE.exposure}</span><b>¥${MONEY.exposure}</b><small>定金、违约金，有一方违约才发生</small></div>
+        </div>
+        <div class="unqline unq">${icon("prohibit")}<span>另有 1 条无法量化，不估金额：<span class="c" data-goto="${MONEY.unq.clause}">${MONEY.unq.clause}</span> 检验期（损失取决于货物是否有质量问题）</span></div>
+      </section>
+      <section class="card prio" aria-label="谈判优先级">
+        <div class="top"><b>谈判优先级</b><span>按金额从大到小 · 点开看合同出处和假设</span></div>
+        ${MONEY.items.map((it, i) => `<div class="prow ${i === open ? "open" : ""}">
+          <button class="phead" data-prio="${it.clause}" aria-expanded="${i === open}">
+            <span class="rk">${i + 1}</span>
+            <span class="pt"><strong>${it.clause}　${it.title}</strong><span class="formula">${esc(it.formula)}</span></span>
+            <span class="pr"><span class="amt">¥${it.amount}</span><small class="${it.nature}">${NATURE[it.nature]}${it.unlisted ? " · 未列为风险" : ""}</small></span>${icon("caret-down")}
+          </button>
+          <div class="pdetail">
+            <div class="pin-list"><span class="lab">用到的合同数字</span>${it.inputs.map(([l, c, q]) => `<p><b>${esc(l)}</b><span class="c" data-goto="${c}">${c}</span><q>${esc(q)}</q></p>`).join("")}${it.more ? `<p class="muted">${it.more}</p>` : ""}</div>
+            <div class="assume"><span class="lab">假设</span>${it.assumptions.map((a) => `<p>${esc(a)}</p>`).join("")}</div>
+          </div>
+        </div>`).join("")}
+      </section>`;
+  }
+
   const RUIFENG = ["瑞丰贸易有限公司（构造）", "瑞"];
   const reviewHead = (extra = "") => head({
     crumb: `合同审查 ${icon("caret-right")} 农产品买卖合同`, title: "农产品买卖合同", code: "AGRI-R4",
@@ -340,6 +456,8 @@ WHERE tenant='ruifeng' AND item LIKE '%粳米%'</div>
                 <div class="div"></div>
                 <div><h4>${icon("list-checks")}识别的风险类型 <em>11</em></h4><div class="chips">${["违约金过高或不对等", "免责与责任限制", "单方解除", "检验期过短", "付款条件不利", "保密缺失或不对等", "知识产权归属不利", "管辖不利", "自动续约", "定金超过 20%", "单价高于台账均价"].map((t) => `<span class="chip">${t}</span>`).join("")}</div></div>
                 <div class="div"></div>
+                <div><h4>${icon("currency-cny")}金额测算 <em>5</em></h4><div class="chips">${["比价多付", "付款条件的资金占用", "违约金", "定金超过 20% 的部分", "质保金"].map((t) => `<span class="chip">${t}</span>`).join("")}</div></div>
+                <div class="div"></div>
                 <div><h4>${icon("book-open-text")}依据来源</h4><div class="chips">${["《民法典》", "合同编通则解释", "《民事诉讼法》", "官方示范文本", "本公司审查规范", "供应商台账"].map((t) => `<span class="chip">${t}</span>`).join("")}</div></div>
               </section>
               <section class="card notice">${icon("warning-circle")}<span>审查结果不构成法律意见，不替代律师和法务的最终判断。范围之外的合同和风险，系统不会主动提示。</span></section>
@@ -352,7 +470,7 @@ WHERE tenant='ruifeng' AND item LIKE '%粳米%'</div>
         lead: "选我方公司，粘贴合同或载入构造的示例合同。对应 PRD 第 4 节流程第 1 步。",
         items: [
           { sel: ".field .select", at: "tl", t: "先选“我方公司”", d: "每家公司只能检索到自己的审查规范和供应商台账。不同公司的红线不同，混在一起会给出错误的依据。", s: "PRD 第 7 节；问题日志 P21 修复过一次跨租户读数据的漏洞" },
-          { sel: ".scope", at: "tl", t: "提交前写清覆盖范围", d: "PRD 风险一节提到“过度依赖”：用户可能只看系统列出的问题。所以提交页就列出 7 类合同、11 类风险和依据来源。", s: "设计提案，对应 PRD 第 5、8 节；现有前端只在首屏说明里提到" },
+          { sel: ".scope", at: "tl", t: "提交前写清覆盖范围", d: "PRD 风险一节提到“过度依赖”：用户可能只看系统列出的问题。所以提交页就列出 7 类合同、11 类风险、5 项金额测算和依据来源。", s: "设计提案，对应 PRD 第 5、8 节；现有前端只在首屏说明里提到" },
           { sel: ".notice", at: "tl", t: "免责放在动作旁边", d: "“不构成法律意见”放在开始审查之前，而不是藏在页脚。", s: "PRD 第 8 节" },
           { sel: ".sheet", at: "tr", t: "合同按纸张排版", d: "正文用宋体，接近用户平时看到的合同，减少“这是机器文本”的距离感。示例合同都是构造的。", s: "evals/README.md" },
         ],
@@ -404,6 +522,7 @@ WHERE tenant='ruifeng' AND item LIKE '%粳米%'</div>
             <section class="pane panel" aria-label="审查意见">
               <div class="scroll" data-findings><div class="stack">
                 ${verdict()}
+                <button class="card linkbtn" data-go="6">${icon("currency-cny")}<span>每条风险值多少钱、先谈哪条？<small>这份运行记录早于金额测算，金额看第 6 屏 V3-GOODS-12</small></span>${icon("arrow-right")}</button>
                 ${FINDINGS.map((f, i) => findingHTML(f, i, { focus: i === 0 })).join("")}
                 ${traceLine(2, "51.0", "$0.00635")}
               </div></div>
@@ -488,6 +607,33 @@ WHERE tenant='ruifeng' AND item LIKE '%粳米%'</div>
           { sel: ".human-meta", at: "tl", t: "拿不准的不删，标转法务复核", d: "单价比台账均价高 11.4%，落在公司规范 8% 到 15% 之间，合不合理取决于当期行情。系统给出数据和规范，把决定留给人。", s: "PRD 第 7 节" },
           { sel: ".clause.active", at: "tl", t: "回答里的条款号联动原文", d: "回答定位到第六条，左侧原文同步选中，用户不用自己找。", s: "现有前端 answer_clause" },
           { sel: ".stack > article:nth-of-type(4) .fb", at: "l", t: "四档打标，变成改进方向", d: "有用 / 没用 / 不是风险 / 看不懂。只记标签和意见的条款、类型、等级，不记合同原文；用来算采纳率和误报反馈率，每条“不是风险”都回到原文看原因。", s: "PRD 第 6 节；用户试用方案第 4 到 6 节" },
+        ],
+      },
+    },
+    {
+      name: "金额与优先级",
+      build: () => `${side("华信制造有限公司（构造）", "华")}
+        <main class="main">
+          ${head({ crumb: `合同审查 ${icon("caret-right")} 工业品买卖合同`, title: "工业品买卖合同", code: "V3-GOODS-12", acts: `<span class="meta">${icon("user-circle")}我方：甲方（买受人）</span><span class="meta">${icon("list-bullets")}4 条意见</span><span class="meta money-meta">${icon("currency-cny")}4 项金额</span><button class="btn" data-go="1">${icon("arrow-counter-clockwise")}换一份合同</button>` })}
+          <div class="body" style="grid-template-columns: minmax(0,1fr) 640px">
+            <section class="pane desk" aria-label="合同原文"><div class="scroll" data-contract data-scroll-to="第六条">${paperHTML(GOODS12, { findings: MONEY.findings, active: "第六条", hint: "条款下方标出风险等级和测算金额；正文只展示到第十条", money: { "第一条": "多付 ¥124,920.00", "第四条": "无法量化", "第五条": "未列为风险 · 多占用资金 ¥26,711.69", "第六条": "敞口 ¥164,137.50", "第九条": "敞口 ¥68,937.75" } })}</div></section>
+            <section class="pane panel" aria-label="金额与谈判优先级">
+              <div class="scroll" data-findings><div class="stack">
+                ${moneyHTML()}
+                <div class="trace">${icon("caret-right")}9 次模型调用 · 共 48.1 秒 · $0.01403；其中金额测算 1 次、3.9 秒、$0.00074，与三个审查员并行</div>
+              </div></div>
+              ${composer()}
+            </section>
+          </div>
+        </main>`,
+      notes: {
+        title: "每条风险算成钱，按金额排优先级",
+        lead: "V3-GOODS-12 的真实输出（构造的 4 行标的采购合同）：4 项金额，其中第五条的付款条件没有被报成风险，但预付款加定金占 55%，多占用资金，也列进来。对应 PRD 第 4 节第 6 到 8 步。",
+        items: [
+          { sel: ".money .top b", at: "l", t: "先回答“最坏多花多少、先谈哪条”", d: "高 / 中 / 低回答不了两条“高”哪条更要紧。汇总区给合计，下面按金额排出谈判顺序。", s: "PRD 第 2 节，标了【假设】：用户是否按金额排序去谈，要靠试用验证" },
+          { sel: ".money .msplit", at: "tl", t: "两种钱分开放", d: "“确定多花”照现在的条款履行就会发生；“敞口”要有一方违约才发生。只显示一个合计，会被读成“一定损失这么多”。", s: "ADR 014 决定 6；PRD 第 8 节“金额被当成精确预测”" },
+          { sel: ".prow .rk", at: "l", t: "金额由规则算，带算式、原文和假设", d: "错的金额比没有金额危害更大：采购会拿着它去谈判。模型只抄数字，规则代码核对原文后计算。60 份留出合同 133 个测算项算对 133 和 132 个，未出现错误金额。", s: "ADR 014；构造数据，留出集与调试集出自同一个生成器" },
+          { sel: ".unqline", at: "l", t: "算不了的标“无法量化”", d: "检验期、管辖、保密这类风险没有确定的数，写明原因，不估。留出集 26 个算不了的条款（背靠背付款、按实际损失计的违约金等）全部标对。", s: "PRD 第 5 节“不做”；ADR 014 决定 5" },
         ],
       },
     },
@@ -604,6 +750,14 @@ WHERE tenant='ruifeng' AND item LIKE '%粳米%'</div>
     const t = e.target.closest("button, [data-goto], .clause.risk");
     if (!t) return;
     if (t.dataset.cite) return render(4, { cite: t.dataset.cite });
+    if (t.dataset.prio) {
+      const row = t.closest(".prow");
+      const was = row.classList.contains("open");
+      $$(".prow", frame).forEach((r) => { r.classList.remove("open"); $(".phead", r).setAttribute("aria-expanded", "false"); });
+      if (!was) { row.classList.add("open"); t.setAttribute("aria-expanded", "true"); }
+      scrollClause(t.dataset.prio);
+      return placePins(SCREENS[current - 1].notes.items);
+    }
     if (t.dataset.goto) return scrollClause(t.dataset.goto);
     if (t.classList.contains("clause")) return scrollClause(t.dataset.clause);
     if (t.hasAttribute("data-close")) return render(3);

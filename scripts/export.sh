@@ -5,10 +5,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 TMP="$(mktemp -d)"
-NAMES=("01-提交合同" "02-立场反问" "03-逐条意见" "04-依据原文" "05-追问与转人工")
+NAMES=("01-提交合同" "02-立场反问" "03-逐条意见" "04-依据原文" "05-追问与转人工" "06-金额与谈判优先级")
 URL="file://$PWD/prototype/index.html?export=1"
 mkdir -p assets/img/screens figma
-for i in 0 1 2 3 4; do
+for i in 0 1 2 3 4 5; do
   n=$((i + 1)); name="${NAMES[$i]}"
   "$CHROME" --headless=new --disable-gpu --hide-scrollbars --allow-file-access-from-files \
     --force-device-scale-factor=2 --window-size=1440,900 --virtual-time-budget=4000 \
@@ -20,5 +20,11 @@ for i in 0 1 2 3 4; do
     --virtual-time-budget=4000 --print-to-pdf="$TMP/$n.pdf" "$URL&notes=0&s=$n" 2>/dev/null
   pdftocairo -svg -f 1 -l 1 "$TMP/$n.pdf" "figma/$name.svg"
   sed -i "" -E '2s/width="1080pt" height="675.12pt"/width="1440" height="900"/' "figma/$name.svg"
+done
+# 主页用的压缩图（2000 宽 JPG；设计说明版 2400 宽）
+mkdir -p assets/img/web
+for name in "${NAMES[@]}"; do
+  sips -s format jpeg -s formatOptions 82 --resampleWidth 2000 "assets/img/screens/$name.png" --out "assets/img/web/$name.jpg" >/dev/null
+  sips -s format jpeg -s formatOptions 82 --resampleWidth 2400 "assets/img/screens/$name-设计说明.png" --out "assets/img/web/$name-设计说明.jpg" >/dev/null
 done
 echo "done"

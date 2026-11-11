@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>武敬恒 · AI 产品经理作品集</title>
-<meta name="description" content="AI 产品经理实习作品集。主案例：合同风险审查 Agent，含用户与痛点、PRD、竞品分析、指标体系、高保真原型、评测结论和用户试用方案；第二案例：MetricLens 中文问数；第三案例：跨境电商经营分析看板。">
+<title>武敬恒 · AI 产品经理作品集｜采购合同审查 Agent、MetricLens</title>
+<meta name="description" content="AI 产品经理实习作品集。主案例：采购合同审查 Agent，把每条风险算成钱、按金额排谈判优先级，含用户与痛点、产品方案、PRD、竞品分析、指标体系、高保真原型、评测结论和用户试用方案；第二案例：MetricLens 经营问数与指标异动归因；第三案例：跨境电商经营分析看板。">
 <meta property="og:title" content="武敬恒 · AI 产品经理作品集">
-<meta property="og:description" content="合同风险审查 Agent：帮没有专职法务的业务人员，签合同前把对我方不利的条款找出来。">
-<meta property="og:image" content="assets/img/web/03-逐条意见.jpg">
+<meta property="og:description" content="采购合同审查 Agent：帮没有专职法务的中小企业采购，签合同前找出不利条款，把每条风险算成钱，按金额排出先谈哪条。">
+<meta property="og:image" content="assets/img/web/06-金额与谈判优先级.jpg">
 <link rel="stylesheet" href="assets/vendor/phosphor/phosphor.css">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
@@ -18,6 +18,7 @@
     <span class="me">武敬恒<span>AI 产品经理作品集</span></span>
     <nav aria-label="页内导航">
       <a href="#problem">用户与痛点</a>
+      <a href="#solution">方案</a>
       <a href="#prototype">原型</a>
       <a href="#prd">PRD</a>
       <a href="#competition">竞品</a>
@@ -34,42 +35,43 @@
   <div class="wrap">
     <section class="hero">
       <div>
-        <p class="kicker">主案例 · 合同风险审查 Agent</p>
-        <h1>签合同之前，帮没有法务的业务人员把坑找出来</h1>
-        <p class="sub">逐条指出对我方不利的条款，说清依据和改法；拿不准的交给法务。</p>
+        <p class="kicker">主案例 · 采购合同审查 Agent：把每条风险算成钱</p>
+        <h1>签采购合同之前，知道每条风险值多少钱、先谈哪一条</h1>
+        <p class="sub">给没有专职法务的中小企业采购：逐条标出不利条款、可直接替换的改法和法条原文；能算的风险换算成金额，按金额排出谈判优先级；算不了的标“无法量化”。</p>
         <div class="cta">
           <a class="btn primary" href="prototype/"><i class="ph ph-cursor-click" aria-hidden="true"></i>看可点击原型</a>
+          <a class="btn" href="https://kennywu411-dev.github.io/contract-review-agent/"><i class="ph ph-play-circle" aria-hidden="true"></i>在线回放</a>
           <a class="btn" href="https://github.com/kennywu411-dev/contract-review-agent"><i class="ph ph-github-logo" aria-hidden="true"></i>项目代码</a>
         </div>
       </div>
-      <a class="shot" href="prototype/?s=3" aria-label="打开原型第 3 屏：逐条意见">
-        <img src="assets/img/web/03-逐条意见.jpg" width="2000" height="1250" alt="合同风险审查原型：左侧合同按风险等级高亮，右侧逐条列出风险类型、等级、理由、依据编号和修改建议">
+      <a class="shot" href="prototype/?s=6" aria-label="打开原型第 6 屏：金额与谈判优先级">
+        <img src="assets/img/web/06-金额与谈判优先级.jpg" width="2000" height="1250" alt="采购合同审查原型：左侧合同按风险等级高亮并标出测算金额，右侧汇总最坏情况多花 384,706.94 元，分成不改就确定多花和最坏情景下的敞口，下方按金额排出四项谈判优先级，每项带算式">
       </a>
     </section>
 
     <div class="facts reveal">
-      <div><b>100%</b><span>难评测集风险检出（75/75，跑两次）</span></div>
-      <div><b>0.8%</b><span>理由无依据又没标转人工的意见</span></div>
-      <div><b>100% / 0%</b><span>当事人空白时反问 / 多余反问</span></div>
+      <div><b>0 个错误金额</b><span>60 份留出合同 133 个测算项，算对 133 和 132 个（跑两次）</span></div>
+      <div><b>26 / 26</b><span>算不了的条款全部标“无法量化”，没有硬算</span></div>
+      <div><b>6.6% → 0.8%</b><span>理由无依据又没提示人工复核的意见</span></div>
       <div><b>约 1 美分</b><span>单份合同模型花费</span></div>
     </div>
-    <p class="footnote">以上全部是离线评测数字，评测合同、公司和台账均为构造数据；没有真实用户和上线数据。真实用户试用的方案见下文，结果出来后更新。</p>
+    <p class="footnote">以上全部是离线评测数字，评测合同、公司和台账均为构造数据；金额测算的留出集和调试集出自同一个生成器，没有在真实合同上验证过。没有真实用户和上线数据，试用只有方案，见下文。</p>
   </div>
 
   <section class="block" id="problem">
     <div class="wrap">
       <h2>用户与痛点</h2>
-      <p class="lead">很多中小企业没有专职法务，采购、行政和业务负责人看合同主要靠经验和对方给的模板 <span class="tag assume">假设</span>。坑往往是固定的几类，单看都不起眼，签了出问题才发现。</p>
+      <p class="lead">很多中小企业没有专职法务，采购看合同主要靠经验和对方给的模板 <span class="tag assume">假设</span>。审查工具能给出一串意见，但只有“高 / 中 / 低”三个等级：十条意见、谈判时间只够谈两三条，不知道先谈哪条 <span class="tag assume">假设</span>。</p>
       <div class="split">
         <div class="panel reveal">
           <h3>为谁做</h3>
           <div class="user">
             <span class="ic"><i class="ph ph-buildings" aria-hidden="true"></i></span>
-            <div><b>主要：中小企业的采购、行政、业务负责人</b><p>签合同前自己先过一遍，决定要不要找对方改、要不要报给领导或律师。最在意：快、看得懂、改法能直接用。</p></div>
+            <div><b>主要：中小企业的采购人员和采购负责人（无专职法务）</b><p>签采购合同前自己先过一遍，决定先找对方改哪几条、要不要报给领导或外部律师。最在意：快、看得懂、改法能直接用、知道每条值多少钱。</p></div>
           </div>
           <div class="user second">
             <span class="ic"><i class="ph ph-gavel" aria-hidden="true"></i></span>
-            <div><b>次要：企业法务</b><p>合同量大时先让系统初筛，自己只看高风险和系统拿不准的部分。最在意：不漏报、依据可查、能对照公司规范。</p></div>
+            <div><b>次要：行政、业务负责人和企业法务</b><p>行政和业务签销售、委托、数据类合同前先过一遍，金额只在能算时给。法务在合同量大时让系统初筛，自己只看高风险和系统拿不准的部分，最在意不漏报、依据可查。</p></div>
           </div>
           <div class="traps">
             <p>常见的坑</p>
@@ -79,15 +81,17 @@
         <div class="panel reveal">
           <h3>现有做法为什么不够</h3>
           <ul class="pains">
+            <li><i class="ph ph-list-numbers" aria-hidden="true"></i><span><b>只给“高 / 中 / 低”的审查工具：</b>两条都是“高”，哪条更要紧看不出来；向领导汇报时，“第九条高风险”也不如一个具体的金额容易得到支持 <span class="tag assume">假设</span></span></li>
             <li><i class="ph ph-currency-cny" aria-hidden="true"></i><span><b>请外部律师逐份审：</b>贵、慢，几万元以下的小合同不值得 <span class="tag assume">假设</span></span></li>
-            <li><i class="ph ph-chat-circle-text" aria-hidden="true"></i><span><b>贴进通用聊天机器人：</b>会给意见，但不站在我方立场，引用的法条可能是编的，也不知道公司自己的审批规定。</span></li>
+            <li><i class="ph ph-chat-circle-text" aria-hidden="true"></i><span><b>贴进通用聊天机器人：</b>会给意见，但不站在我方立场，引用的法条可能是编的，也不知道公司自己的审批规定；让它直接估金额，算式看不到，同一份合同问两次可能得到两个数。</span></li>
             <li><i class="ph ph-folder-simple" aria-hidden="true"></i><span><b>公司内部审查规范：</b>多数写成文件放着，业务人员签合同时不会逐条去对 <span class="tag assume">假设</span></span></li>
           </ul>
           <div class="traps">
-            <p>所以产品要做到的三件事</p>
+            <p>所以产品要做到的四件事</p>
             <ul class="pains">
               <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>站在我方立场</b>，看不出立场先问，不猜。</span></li>
               <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>每条意见都能点开原文核实</b>，法条和本公司规范都算。</span></li>
+              <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>能算的风险算成金额</b>，按金额排出先谈哪条；算不了的不硬算。</span></li>
               <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>拿不准的不删</b>，标“转法务复核”交给人。</span></li>
             </ul>
           </div>
@@ -96,10 +100,54 @@
     </div>
   </section>
 
+  <section class="block" id="solution">
+    <div class="wrap">
+      <h2>产品方案：把每条风险算成钱</h2>
+      <p class="lead">逐条标出不利条款、可直接替换的改法和法条原文，再把每条能算的风险换算成金额，按金额排出谈判优先级。“不改就确定多花”和“最坏情景下的敞口”分开展示：前者照现在的条款履行就会发生，后者要有一方违约才发生，加在一起只给一个数会被读成“一定损失这么多”。</p>
+      <div class="split">
+        <div class="panel reveal">
+          <h3>汇总区长什么样</h3>
+          <p style="margin:0 0 4px;color:var(--muted);font-size:15px">按现在的条款签，最坏情况多花</p>
+          <p style="margin:0 0 6px;font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1.2">¥384,706.94</p>
+          <p style="margin:0 0 14px;font-size:15px;color:var(--ink-2)">不改就确定多花 <b>¥151,631.69</b>　·　最坏情景下的敞口 <b>¥233,075.25</b></p>
+          <div class="table-scroll">
+          <table class="trade">
+            <thead><tr><th style="white-space:nowrap">优先级</th><th>测算项</th><th style="text-align:right">金额</th></tr></thead>
+            <tbody>
+              <tr><td style="white-space:nowrap">1　第六条</td><td>定金超过法定上限 20% 的部分 <span class="tag">敞口</span></td><td style="text-align:right;white-space:nowrap" class="mono">¥164,137.50</td></tr>
+              <tr><td style="white-space:nowrap">2　第一条</td><td>单价高于台账历史均价：本单多付 <span class="tag">确定多花</span></td><td style="text-align:right;white-space:nowrap" class="mono">¥124,920.00</td></tr>
+              <tr><td style="white-space:nowrap">3　第九条</td><td>违约金不对等：同样逾期，我方比对方多付 <span class="tag">敞口</span></td><td style="text-align:right;white-space:nowrap" class="mono">¥68,937.75</td></tr>
+              <tr><td style="white-space:nowrap">4　第五条</td><td>付款条件的资金占用成本（未列为风险）<span class="tag">确定多花</span></td><td style="text-align:right;white-space:nowrap" class="mono">¥26,711.69</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <p class="footnote" style="margin-top:12px">示例是构造合同 V3-GOODS-12（4 行标的的工业品采购）的真实运行输出，和在线回放、原型第 6 屏是同一份。第 4 项账期合规、审查没有报成风险，但预付款加定金占 55%，比公司标准多占用资金，也列出来。</p>
+          <a class="more" href="https://kennywu411-dev.github.io/contract-review-agent/">在线回放里点开每项的算式和合同出处<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="panel reveal">
+          <h3>可信度设计：错的金额比没有金额危害更大</h3>
+          <p style="margin:0 0 14px;font-size:15.5px;color:var(--ink-2)">采购会拿着金额去谈判。一个看起来正常、其实差了 10 倍的数，比没有数更糟。</p>
+          <ul class="pains">
+            <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>金额由规则代码计算：</b>模型只把合同里的数字抄出来，不做算术；同样的输入得到同样的金额。</span></li>
+            <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>每个金额带算式和合同出处：</b>代入数字的完整算式、用到的条款原文、假设清单都列在金额旁边。资金成本率和“双方各逾期 30 天”是假设，不是预测。</span></li>
+            <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>抄出的数字逐个核对原文：</b>核对不上不出金额，标“需人工核对”。</span></li>
+            <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>算不了的标“无法量化”：</b>背靠背付款、以实际损失为基数的违约金、检验期、管辖、保密这类没有确定的数，写明原因，不估。</span></li>
+            <li><i class="ph ph-check-circle" aria-hidden="true" style="color:var(--ok)"></i><span><b>说不出依据的意见提示人工复核：</b>不删除，标“转法务复核”。</span></li>
+          </ul>
+          <div class="traps">
+            <p>用对照实验做决定</p>
+            <p style="font-size:15.5px;color:var(--ink-2);margin:0">让同一个模型直接算金额，准确率相当（97%–99%，差别不显著），所以不能说规则“更准”。差别在另外三点：直接算只有约 80% 分毫不差；重复运行约 9% 的测算项结论不一致；出错多为差 10 倍或 100 倍的金额，且没有任何提示。规则方案在留出集上唯一的 1 处错是“没给金额”。</p>
+          </div>
+          <a class="more" href="https://github.com/kennywu411-dev/contract-review-agent/blob/main/docs/adr/014-金额测算.md">ADR 014：公式、评测设计和第一版输给对照组的经过<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="prototype">
     <div class="wrap">
-      <h2>高保真原型：5 个关键页面</h2>
-      <p class="lead">流程按 PRD 第 4 节：提交合同、判断立场、逐条意见、看依据原文、追问。画面里的合同、意见和依据都来自项目的真实运行记录，不是编的示例。</p>
+      <h2>高保真原型：6 个关键页面</h2>
+      <p class="lead">流程按 PRD 第 4 节：提交合同、判断立场、逐条意见、看依据原文、追问、金额与谈判优先级。画面里的合同、意见、依据和金额都来自项目的真实运行记录，不是编的示例。第 3 到 5 屏的运行记录早于金额测算，所以金额单独放在第 6 屏，用的是另一份合同。</p>
       <div class="gallery">
         <div class="list" role="tablist" aria-label="原型页面">
           <button role="tab" aria-selected="true" data-i="0"><b>1</b><span><strong>提交合同</strong><small>选我方公司，粘贴合同；提交前写清覆盖范围</small></span></button>
@@ -107,6 +155,7 @@
           <button role="tab" aria-selected="false" data-i="2"><b>3</b><span><strong>逐条意见</strong><small>等级、理由、可替换的改法、依据编号、打标</small></span></button>
           <button role="tab" aria-selected="false" data-i="3"><b>4</b><span><strong>依据原文</strong><small>点编号，右栏打开法条原文并高亮</small></span></button>
           <button role="tab" aria-selected="false" data-i="4"><b>5</b><span><strong>追问与转人工</strong><small>“第 2 条怎么改”；拿不准的标转法务复核</small></span></button>
+          <button role="tab" aria-selected="false" data-i="5"><b>6</b><span><strong>金额与谈判优先级</strong><small>最坏多花多少、先谈哪条；每项带算式</small></span></button>
         </div>
         <div class="view">
           <div class="viewbar">
@@ -130,15 +179,16 @@
   <section class="block" id="prd">
     <div class="wrap">
       <h2>PRD 摘要</h2>
-      <p class="lead">一句话：签合同之前，帮没有专职法务的业务人员把对我方不利的条款找出来，说清楚为什么不利、依据是哪条法律或公司规定、应该怎么改；拿不准的交给法务。</p>
+      <p class="lead">一句话：签采购合同之前，帮没有专职法务的采购人员把对我方不利的条款找出来，说清楚为什么不利、依据是哪条法律或公司规定、应该怎么改，并把每条能算的风险换算成金额：这份合同不改，最坏多花多少钱，先谈哪一条。拿不准的交给法务，算不了的不硬算。</p>
       <div class="prd">
         <div class="panel scope-list reveal">
           <div class="do">
             <h4><i class="ph ph-check-circle" aria-hidden="true"></i>做</h4>
             <ul>
-              <li>7 类常见商业合同：工业品买卖、农产品买卖、加工承揽、仓储委托、数据委托处理、数据产品开发、数据供应</li>
+              <li>主打采购合同（我方是付款方）；7 类常见商业合同都能审：工业品买卖、农产品买卖、加工承揽、仓储委托、数据委托处理、数据产品开发、数据供应</li>
               <li>11 类风险，从违约金不对等到单价高于台账均价</li>
               <li>依据：《民法典》、合同编通则解释、《民事诉讼法》、官方示范文本、公司审查规范</li>
+              <li>金额测算 5 项：比价多付、付款条件的资金占用成本、违约金、定金超过法定 20% 的部分、质保金；每个金额带算式、合同原文位置和假设</li>
             </ul>
           </div>
           <div class="dont">
@@ -146,6 +196,8 @@
             <ul>
               <li>不出具法律意见，不替代律师和法务</li>
               <li>不做起草、电子签、合同台账和履约提醒</li>
+              <li>不给没有确定数字的风险估金额，标“无法量化”并说明原因</li>
+              <li>不预测违约概率：“最坏情景”是写明的假设（双方各逾期 30 天）</li>
               <li>不审诉讼仲裁文书和建设工程等专业合同</li>
             </ul>
           </div>
@@ -160,7 +212,11 @@
               <tr><td>依据核实不了怎么办</td><td><b>不删除，标转法务复核</b></td><td>删掉会造成漏报。无依据又没标转人工的意见从 6.6% 降到 0.8%</td></tr>
               <tr><td>看不出我方立场</td><td><b>先反问</b></td><td>立场判断错了，整份意见都会反过来</td></tr>
               <tr><td>公司规范怎么用</td><td><b>每家公司只能查到自己的</b></td><td>不同公司红线不同；修复过一次跨租户读数据的漏洞</td></tr>
-              <tr><td>单 Agent 还是多 Agent</td><td><b>首轮审查多 Agent，追问单 Agent</b></td><td>干净合同上的误报意见从 13 到 14 条降到 4 到 6 条，检出持平</td></tr>
+              <tr><td>单 Agent 还是多 Agent</td><td><b>首轮审查多 Agent，追问单 Agent</b></td><td>60 份长合同上，改进后的多 Agent 两次都检出全部 75 处风险（单 Agent 96.0% 和 97.3%）；代价是误报回升，当前版本精确率（高/中）68% 到 71%</td></tr>
+              <tr><td>金额谁来算</td><td><b>模型只抄数字，金额由规则代码算</b></td><td>两种做法准确率没有显著差别（规则 100% 和 99.2%，模型直接算 97.0% 到 99.2%）。选规则是因为金额分毫不差、两次运行 300 项里 299 项结论相同（直接算 271 到 274 项）、出错时是“不给金额”而不是给错金额</td></tr>
+              <tr><td>抄错了怎么办</td><td><b>每个数字核对原文，核对不上不出金额</b></td><td>错的金额比没有金额危害大：采购会拿着它去谈判</td></tr>
+              <tr><td>算不了的怎么办</td><td><b>标“无法量化”并写原因，不估</b></td><td>背靠背付款、按实际损失计的违约金没有确定的数，估出来的数没有依据</td></tr>
+              <tr><td>假设放在哪</td><td><b>每家公司一份配置，金额旁边列出用到的假设</b></td><td>资金成本率、逾期天数各家不同；不写明就成了“系统说的数”</td></tr>
             </tbody>
           </table>
           </div>
@@ -185,6 +241,7 @@
           <div class="row"><b>依据原文</b><span>每条意见都能点开法条或公司规范原文，核实不了的标转法务复核</span><span>观察 2；无依据又没标转人工 0.8%</span></div>
           <div class="row"><b>公司规范和内部数据</b><span>导入公司审查规范后按红线判断；单价和供应商台账比较</span><span>观察 3；不同公司的规范和数据互相隔离</span></div>
           <div class="row"><b>立场</b><span>自动判断，看不出来先反问</span><span>观察 5</span></div>
+          <div class="row"><b>先谈哪条</b><span>能算的风险换算成金额，按金额排出谈判优先级，带算式和合同出处</span><span>竞品调研做在金额测算之前，竞品有没有类似功能还没有查证；用户是否按金额去谈待验证</span></div>
           <div class="row"><b>成本</b><span>单份模型花费约 1 美分，按份收费在成本上可行</span><span>观察 1；是否有人愿意付费待验证</span></div>
         </div>
       </div>
@@ -196,12 +253,13 @@
   <section class="block" id="metrics">
     <div class="wrap">
       <h2>指标体系</h2>
-      <p class="lead">北极星看用户真的用上了多少意见；离线指标管质量，在线指标等试用，护栏指标守住不能出的错。当前值都来自构造数据。</p>
+      <p class="lead">北极星看用户真的用上了多少意见；离线指标管质量，在线指标等试用，护栏指标守住不能出的错，金额这条线的护栏是“错误金额为 0”。当前值都来自构造数据。</p>
       <div class="metrics">
         <div class="ns reveal">
           <span class="lab">北极星指标</span>
           <h3>每份合同被采纳的高/中风险意见数</h3>
           <p>用户标“有用”或照着修改建议改了的意见数。当前没有值，需要试用后定基线。</p>
+          <p>金额这条线对应的在线指标是“金额被用于谈判的比例”：用户照着优先级去谈、或把金额写进汇报的合同占比。同样要等试用。</p>
           <p class="why">为什么不用“检出率”：检出再多，用户看不懂、不敢用，等于没审。采纳数同时反映准确、可读和改法可用。</p>
         </div>
         <div class="tiers">
@@ -210,8 +268,11 @@
             <div class="kv">
               <span class="h">指标</span><span class="h">当前</span><span class="h">目标</span>
               <span class="m">风险检出率</span><span>v1 100%；v2 100%（两次）</span><span>不低于 95%</span>
-              <span class="m">意见精确率（高/中）</span><span>v1 82.3%；v2 62.6% 到 65.7%</span><span>v2 提到 75%</span>
+              <span class="m">意见精确率（高/中）</span><span>当前版本 v1 68.4% 和 70.6%；v2 62.6% 到 65.7%</span><span>提到 75%</span>
               <span class="m">依据引用准确率</span><span>v1 100%</span><span>不低于 95%</span>
+              <span class="m">金额正确率（误差不超过 1%）</span><span>留出集 100% 和 99.2%（133 项，两次）</span><span>不低于 98%</span>
+              <span class="m">字段抽取准确率</span><span>留出集 99.4% 和 100%（641 个数字）</span><span>不低于 98%</span>
+              <span class="m">“无法量化”判断</span><span>留出集 26/26（两次）</span><span>100%</span>
             </div>
           </div>
           <div class="tier reveal">
@@ -220,6 +281,7 @@
               <span class="h">指标</span><span class="h">当前</span><span class="h">目标</span>
               <span class="m">意见采纳率</span><span>无</span><span>试用后定基线</span>
               <span class="m">误报反馈率</span><span>无</span><span>试用后定基线</span>
+              <span class="m">金额被用于谈判的比例</span><span>无</span><span>试用后定基线</span>
               <span class="m">审完一份合同的时间</span><span>系统耗时 P50 约 28 秒</span><span>比自己看短一半 <span class="tag assume">假设</span></span>
             </div>
           </div>
@@ -229,7 +291,8 @@
               <span class="h">指标</span><span class="h">当前</span><span class="h">目标</span>
               <span class="m">漏报（法务抽检发现的高风险）</span><span>v2 构造数据为 0</span><span>每一例都复盘</span>
               <span class="m">无依据又未转人工的意见</span><span>0.8%</span><span>不高于 1%</span>
-              <span class="m">单份成本</span><span>P50 $0.0038 到 $0.0118</span><span>不高于 $0.02</span>
+              <span class="m">错误金额（给了金额但误差超过 1%）</span><span>留出集 0（两次）</span><span>0</span>
+              <span class="m">单份成本</span><span>P50 $0.0038 到 $0.0118，金额测算另加约 $0.0005</span><span>不高于 $0.02</span>
             </div>
           </div>
         </div>
@@ -240,11 +303,14 @@
   <section class="block" id="evaluation">
     <div class="wrap">
       <h2>评测结论</h2>
-      <p class="lead">两套构造评测集：v1 是 48 份合同、73 处植入风险；v1 检出触顶后又做了 v2，60 份长合同、75 处风险，专门把风险藏在不相关条款里、换说法、拆成两条合起来看、数值刚越过红线。</p>
+      <p class="lead">三套构造评测集：v1 是 48 份合同、73 处植入风险；v1 检出触顶后又做了 v2，60 份长合同、75 处风险，专门把风险藏在不相关条款里、换说法、拆成两条合起来看、数值刚越过红线；v3 是采购合同，单价、账期、定金、违约金由生成器随机取值，每项金额有标准答案，调试用 60 份，另留 60 份在规则冻结后才跑。</p>
       <div class="evals">
+        <div class="ev reveal"><span class="big">132-133 <small>/ 133</small></span><h3>留出集上算对的金额（跑两次）</h3><p>60 份没参与调试的采购合同。给出的金额没有一个是错的；唯一 1 处错是该给的没给，被原文核对拦下、标成“需人工核对”。26 个算不了的条款全部标“无法量化”。</p></div>
+        <div class="ev reveal"><span class="big">约 9%</span><h3>模型直接算金额，重复运行结论不一致</h3><p>直接算的准确率相当（97% 到 99%，差别不显著），但只有约 80% 分毫不差；两次共 8 处错误金额，6 处正好差 10 倍或 100 倍，页面上看起来是个正常的数。因此选规则计算，理由不是“更准”。</p></div>
+        <div class="ev reveal"><span class="big">93.5% <small>对</small> 100%</span><h3>第一版金额评测输给了对照组</h3><p>调试集第一次全量，规则方案 93.5%，模型直接算 97.8% 和 100%。12 处错里 9 处同因：模型把“另行协商”声明成“算不了”，规则没有校验。只改规则、不改提示词，再用留出集验证。</p></div>
         <div class="ev reveal"><span class="big">88% <small>到</small> 100%</span><h3>v2 难评测集检出率</h3><p>原版多 Agent 按标题分工，漏掉定义条款和跨组组合；改成定义条款发给各组、关键词兜底、逐项对照红线后，两次都是 75/75。</p></div>
         <div class="ev reveal"><span class="big">6.6% <small>到</small> 0.8%</span><h3>无依据又没标转人工的意见</h3><p>依据校验：先查点名的条文有没有真被检索到，再逐条核对；依据不足的转人工，不删除。误拦 2.0%。</p></div>
-        <div class="ev reveal"><span class="big">13-14 <small>到</small> 4-6 条</span><h3>干净合同上的误报意见</h3><p>首轮改用多 Agent（主审分派，三个专职审查员并行），检出不变。</p></div>
+        <div class="ev reveal"><span class="big">68% <small>到</small> 71%</span><h3>当前版本的意见精确率（高/中）</h3><p>为了把长合同的检出补到 100%，误报回升：当前默认版本在 v1 上精确率 68.4% 和 70.6%，干净合同误报 66.7%。合同审查里漏报比误报贵，接受这个代价，压误报是下一步。</p></div>
         <div class="ev reveal"><span class="big">8/8</span><h3>追问回指“第 k 条意见怎么改”</h3><p>不带上一轮历史时 0/8；“换成乙方视角再看一遍”6/6 正确切换。</p></div>
         <div class="ev span2 reveal"><span class="big">Haiku <small>而不是</small> DeepSeek</span><h3>模型选型</h3><p>DeepSeek 检出、类型、依据与 Haiku 持平，但精确率低约 6 个点、单份花费约 2.4 倍；默认 Haiku，DeepSeek 留作私有化部署的备选。</p></div>
       </div>
@@ -252,6 +318,8 @@
         <h3><i class="ph ph-warning" aria-hidden="true"></i>这些数字的边界</h3>
         <ul>
           <li>评测集是自己构造的，有“自己出题自己考”的风险；缓解办法是每类风险多种写法、Agent 看不到植入规则、另报未参与调试的留出集。</li>
+          <li>金额测算只在构造合同上评测过，留出集和调试集出自同一个生成器，只是数值和组合不同。真实合同的阶梯价、分期付款、外币、含税和不含税混写都不覆盖，预期表现是“需人工核对”或漏算，没有验证过。</li>
+          <li>金额是按写明的假设算出来的测算值：违约金情景固定为“双方各逾期 30 天”，资金成本率是每家公司的配置，都不是概率估计。追问轮还不会用金额回答“先谈哪一条”。</li>
           <li>v2 改进后误报回升：干净合同误报 76.7% 和 83.3%，精确率 62.6% 到 65.7%，还没到 75% 的目标，是下一步要解决的问题。</li>
           <li>干净合同只有 12 份（v1），同一份代码跑两次误报是 66.7% 和 83.3%，波动大。</li>
           <li>真风险里约一半被模型自己标了转人工，判断偏保守；合同场景的检索 Recall@5 只有 63.2%。</li>
@@ -264,7 +332,7 @@
   <section class="block" id="trial">
     <div class="wrap">
       <h2>用户试用方案</h2>
-      <p class="lead">离线数字来自构造数据，真实合同的写法更多样，线上效果可能明显更低。试用要回答 PRD 里 5 条待验证的假设，并拿到第一批在线指标。</p>
+      <p class="lead">离线数字来自构造数据，真实合同的写法更多样，线上效果可能明显更低。试用要回答 PRD 里 8 条待验证的假设（后 3 条是金额测算带来的），并拿到第一批在线指标。</p>
       <span class="status"><i class="ph ph-hourglass-medium" aria-hidden="true"></i>试用结果还没出来，这里只写方案，不写结果</span>
       <div class="trial">
         <div class="panel reveal">
@@ -280,6 +348,9 @@
             <li>真实合同上的误报率用户能接受</li>
             <li>“依据原文可点开”和“接入公司规范”是在意的差异点</li>
             <li>审完一份合同的总时间明显比自己看短</li>
+            <li>采购确实会按金额排序去谈判，金额让意见更容易被领导和对方接受</li>
+            <li>“资金占用成本”这类不违规但多花钱的条款，用户愿意看到</li>
+            <li>30 天逾期情景和资金成本率，用户愿意自己配置或接受默认值</li>
           </ol>
         </div>
         <div class="panel reveal">
@@ -305,26 +376,28 @@
 
   <section class="block" id="metriclens">
     <div class="wrap">
-      <h2>第二个案例：MetricLens 中文问数</h2>
-      <p class="lead">业务人员用中文提问，系统写 SQL、在只读库上执行、返回答案和图表。重点不是功能多，而是每个选型都在同一批题上做了对照。</p>
+      <h2>第二个案例：MetricLens 经营问数与指标异动归因</h2>
+      <p class="lead">经营负责人问完“是多少”，紧接着就问“为什么掉了”。现有问数工具接不住第二句，还要等分析师写 SQL 一层层下钻。MetricLens 两句都答：问一个数，写 SQL 查出来；问为什么变了，按国家、品类、客户、单据逐层拆开找原因。</p>
       <div class="case2 reveal">
         <div>
-          <h3>选型靠实验，收益算清楚</h3>
-          <p class="d">评测用 BIRD 500 题和模拟电商库；数字和运行 ID 都登记在仓库里。</p>
+          <h3>归因要给能追溯的结论，不是模型的推测</h3>
+          <p class="d">归因评测跑在 UCI 公开的真实电商交易数据上（约 107 万行）；问数评测用 BIRD 500 题和模拟电商库。数字和运行 ID 都登记在仓库里。</p>
           <div class="findings">
-            <div class="fnd"><i class="ph ph-flow-arrow" aria-hidden="true"></i><span><b>固定流程，不上 Agent：</b>准确率一样（72.0% 对 72.0%），Agent 成本高 56%、延迟高 55%。</span></div>
-            <div class="fnd"><i class="ph ph-book-open-text" aria-hidden="true"></i><span><b>企业问数难在口径：</b>去掉口径说明后各模型从 93-98% 掉到 55-66%；加指标语义层后 Haiku 从 65.8% 到 92.5%。</span></div>
-            <div class="fnd"><i class="ph ph-arrows-split" aria-hidden="true"></i><span><b>路由省钱：</b>Haiku 先答、触发纠错再升级 Sonnet，准确率 69.6%，成本是全用 Sonnet 的 14%。</span></div>
-            <div class="fnd"><i class="ph ph-calculator" aria-hidden="true"></i><span><b>ROI 结论：</b>API 成本可以忽略，决定收益的是人审核要多久和系统多准；手写一条 SQL 不到约 5 分钟的场景，用系统反而更慢。</span></div>
-            <div class="fnd"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><span><b>Bad case 复盘：</b>50 道失败题人工判定，56% 是标准答案本身有问题，所以同时报严格准确率和人工判定后的估计值。</span></div>
+            <div class="fnd"><i class="ph ph-tree-structure" aria-hidden="true"></i><span><b>拆解由 SQL 和代码完成：</b>模型只做两头，把问题解析成指标和时间段、把结果写成话；中间的分解、排序、下钻不让模型做算术。</span></div>
+            <div class="fnd"><i class="ph ph-seal-check" aria-hidden="true"></i><span><b>回答里的数字逐个核对：</b>1,151 个数字 100% 能对上 SQL；让模型拿着 SQL 工具自主分析，只有 64% 到 72%。对不上就重写，再对不上改用模板。</span></div>
+            <div class="fnd"><i class="ph ph-hand-palm" aria-hidden="true"></i><span><b>找不到突出原因时明说：</b>得分不够就回答“各分组基本同比例变化”，不硬编原因。负责人拿着错误原因做决策，比没有原因更糟。</span></div>
+            <div class="fnd"><i class="ph ph-flow-arrow" aria-hidden="true"></i><span><b>方案取舍，固定流程而不是自主 Agent：</b>归因上两者的第一原因命中没有显著差别，Agent 成本是 3.8 到 6.9 倍；问数上准确率相同，Agent 成本高 56%。固定流程加取值核对和执行纠错后，BIRD 500 题准确率从 63% 提到 68%。</span></div>
+            <div class="fnd"><i class="ph ph-book-open-text" aria-hidden="true"></i><span><b>瓶颈在口径：</b>复核 50 道失败题，56% 是标准答案本身有错；去掉业务口径说明后准确率下降 30 到 38 个百分点。企业问数要先统一指标口径，而不是换更贵的模型。</span></div>
+            <div class="fnd"><i class="ph ph-warning" aria-hidden="true" style="color:var(--mid)"></i><span><b>已知局限：</b>归因找得还不够准。没参与调试的留出集 22 例，第一原因命中 31.8%；大客户流失、单品断货这两类找不到。每种做法各只跑了 1 次，提高命中率是下一步。</span></div>
           </div>
           <div class="cta" style="margin-top:20px">
+            <a class="btn primary" href="https://kennywu411-dev.github.io/metriclens/"><i class="ph ph-play-circle" aria-hidden="true"></i>在线回放</a>
             <a class="btn" href="https://github.com/kennywu411-dev/metriclens"><i class="ph ph-github-logo" aria-hidden="true"></i>MetricLens 仓库</a>
-            <a class="btn" href="https://github.com/kennywu411-dev/metriclens/blob/main/docs/roi.md">ROI 测算</a>
+            <a class="btn" href="https://github.com/kennywu411-dev/metriclens/blob/main/docs/adr/007-指标异动归因.md">归因设计（ADR 007）</a>
             <a class="btn" href="https://github.com/kennywu411-dev/metriclens/blob/main/docs/badcases.md">Bad case</a>
           </div>
         </div>
-        <div class="shot"><img src="assets/img/web/metriclens-chat.jpg" width="2000" height="1250" alt="MetricLens 问数界面：中文提问后返回答案、图表、表格和 SQL，支持追问" loading="lazy"></div>
+        <a class="shot" href="https://kennywu411-dev.github.io/metriclens/" aria-label="打开 MetricLens 在线回放"><img src="assets/img/web/metriclens-attribution.jpg" width="1560" height="975" alt="MetricLens 归因视图局部：问“2011 年 1 月退货率为什么比上个月高这么多”，回答指出几乎全部变化来自一张大额退货单据，下方显示数字核对结果“回答里 17 个数字全部对上”，以及基期、本期退货率和变化" loading="lazy"></a>
       </div>
     </div>
   </section>
@@ -332,7 +405,7 @@
   <section class="block" id="dashboard">
     <div class="wrap">
       <h2>第三个案例：跨境电商经营分析看板</h2>
-      <p class="lead">接着 MetricLens 的结论往下做：既然问数难在口径，就从产品和数据的角度把"口径怎么定"完整走一遍。用 UCI 公开的英国跨境礼品电商两年数据（约 107 万行、40 多个国家），先写指标定义，再从经营问题推出 5 页看板。</p>
+      <p class="lead">接着 MetricLens 的结论往下做（归因用的也是这份数据）：既然问数难在口径，就从产品和数据的角度把"口径怎么定"完整走一遍。用 UCI 公开的英国跨境礼品电商两年数据（约 107 万行、40 多个国家），先写指标定义，再从经营问题推出 5 页看板。</p>
       <div class="case2 reveal">
         <div>
           <h3>先定口径，再出图</h3>
@@ -364,7 +437,7 @@
         <div class="reveal"><b><i class="ph ph-magnifying-glass" aria-hidden="true"></i>调研</b>场景调研、11 个竞品的公开资料整理，写清楚查到了什么、没查到什么。</div>
         <div class="reveal"><b><i class="ph ph-file-text" aria-hidden="true"></i>定义</b>PRD、范围取舍、指标体系；没验证的判断标【假设】。</div>
         <div class="reveal"><b><i class="ph ph-chart-line-up" aria-hidden="true"></i>评测</b>设计评测集和打分口径，每个改动跑对照，数字和运行记录对得上。</div>
-        <div class="reveal"><b><i class="ph ph-code" aria-hidden="true"></i>实现</b>Agent、检索、依据校验和前端都自己写，能在本机完整演示。</div>
+        <div class="reveal"><b><i class="ph ph-code" aria-hidden="true"></i>实现</b>Agent、检索、依据校验、金额测算和前端都自己写，能在本机完整演示。</div>
       </div>
     </div>
   </section>
@@ -374,7 +447,7 @@
   <div class="wrap">
     <span>武敬恒 · AI 产品经理实习作品集</span>
     <div class="links">
-      <a href="https://github.com/kennywu411-dev/contract-review-agent">合同风险审查 Agent</a>
+      <a href="https://github.com/kennywu411-dev/contract-review-agent">采购合同审查 Agent</a>
       <a href="https://github.com/kennywu411-dev/metriclens">MetricLens</a>
       <a href="https://kennywu411-dev.github.io/ecommerce-dashboard/">经营看板</a>
       <a href="https://github.com/kennywu411-dev">GitHub</a>
@@ -385,8 +458,8 @@
 
 <script>
 (() => {
-  const names = ["01-提交合同", "02-立场反问", "03-逐条意见", "04-依据原文", "05-追问与转人工"];
-  const caps = ["提交合同", "立场反问", "逐条意见", "依据原文", "追问与转人工"];
+  const names = ["01-提交合同", "02-立场反问", "03-逐条意见", "04-依据原文", "05-追问与转人工", "06-金额与谈判优先级"];
+  const caps = ["提交合同", "立场反问", "逐条意见", "依据原文", "追问与转人工", "金额与谈判优先级"];
   const tabs = [...document.querySelectorAll(".gallery .list button")];
   const modes = [...document.querySelectorAll(".seg button")];
   const img = document.getElementById("shot"), link = document.getElementById("shot-link"), cap = document.getElementById("cap");
@@ -396,7 +469,7 @@
     img.alt = `原型第 ${i + 1} 屏：${caps[i]}${notes ? "（带设计说明）" : ""}`;
     img.classList.toggle("wide", notes);
     link.href = `prototype/?s=${i + 1}`;
-    cap.textContent = `${i + 1} / 5　${caps[i]}`;
+    cap.textContent = `${i + 1} / ${names.length}　${caps[i]}`;
     tabs.forEach((t, k) => t.setAttribute("aria-selected", String(k === i)));
     modes.forEach((m) => m.setAttribute("aria-pressed", String((m.dataset.mode === "notes") === notes)));
   };
